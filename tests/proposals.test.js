@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { voteCountdown, voteMetrics, votingState, votingTarget, VOTING_PERIOD, safeExternalUrl } from '../src/proposals.js';
+import { nextVoteDeadline, voteCountdown, voteMetrics, votingState, votingTarget, VOTING_PERIOD, safeExternalUrl } from '../src/proposals.js';
 import { configuredPackages, packageVotes } from '../src/published.js';
 import { buildEvaluationContext } from '../src/evaluation-context.js';
 
@@ -65,11 +65,21 @@ test('expired projects await on-chain closure, while current phases use phase vo
 test('vote countdown follows the project deadline and omits phases without a fixed deadline', () => {
   const project = projects[0];
   const deadline = project.creationTimestamp + VOTING_PERIOD;
-  assert.equal(voteCountdown(project, deadline - 2 * 86400 - 3 * 3600), '2 days 3h left to vote');
-  assert.equal(voteCountdown(project, deadline - 35 * 60), '35m left to vote');
+  assert.equal(voteCountdown(project, deadline - 2 * 86400 - 3 * 3600), '2d 03h 00m 00s left to vote');
+  assert.equal(voteCountdown(project, deadline - 35 * 60 - 12), '0d 00h 35m 12s left to vote');
+  assert.equal(voteCountdown(project, deadline - 0.2), '0d 00h 00m 01s left to vote');
   assert.equal(voteCountdown(project, deadline), null);
   assert.equal(votingState(project, deadline), 'Awaiting closure');
   assert.equal(voteCountdown({ ...project, status: 1, phases: [{ phase: { id: 'phase', status: 0, creationTimestamp: 2000 }, votes: { yes: 0, no: 0, total: 0 } }] }, deadline - 86400), null);
+});
+
+test('top-level days left uses the nearest active project deadline', () => {
+  const earlier = { ...projects[0], creationTimestamp: 1000 };
+  const later = { ...projects[1], creationTimestamp: 2000 };
+  const approved = { ...projects[2], status: 1, creationTimestamp: 500 };
+  assert.equal(nextVoteDeadline([later, approved, earlier], 1000), 1000 + VOTING_PERIOD);
+  assert.equal(nextVoteDeadline([earlier, later], 1000 + VOTING_PERIOD), 2000 + VOTING_PERIOD);
+  assert.equal(nextVoteDeadline([earlier, approved], 1000 + VOTING_PERIOD), null);
 });
 
 test('configuration rejects duplicate or missing AZ IDs', () => {

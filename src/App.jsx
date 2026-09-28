@@ -7,7 +7,7 @@ import { NetworkGlyph } from './design-system/components/blockchain/NetworkGlyph
 import { NODE_URL } from './config';
 import { loadLiveVotes } from './live';
 import { configuredPackages, packageVotes } from './published';
-import { safeExternalUrl, sequenceOf, VOTING_PERIOD, voteCountdown, voteMetrics, votingState, votingTarget } from './proposals';
+import { nextVoteDeadline, safeExternalUrl, sequenceOf, VOTING_PERIOD, voteCountdown, voteMetrics, votingState, votingTarget } from './proposals';
 import site from './data/site.json';
 
 const shortDate = timestamp => new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' }).format(new Date(timestamp * 1000));
@@ -48,16 +48,29 @@ function VoteSummary({ project, tracking, now }) {
   </div>;
 }
 
+function LiveVoteCountdown({ project }) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (project.status !== 0) return;
+    const interval = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(interval);
+  }, [project.status]);
+
+  const countdown = voteCountdown(project, now / 1000);
+  if (!countdown) return null;
+  const deadline = new Date((project.creationTimestamp + VOTING_PERIOD) * 1000).toISOString();
+  return <time className="vote-countdown" dateTime={deadline} title={`Voting ends ${deadline}`}>{countdown}</time>;
+}
+
 function ProposalRow({ project, tracking, now }) {
   const target = votingTarget(project);
   const discussion = safeExternalUrl(project.url);
   const deadline = project.creationTimestamp + VOTING_PERIOD;
-  const countdown = voteCountdown(project, now / 1000);
   return <article className="proposal-row">
     <div className="proposal-info">
       <div className="proposal-title"><span className="sequence">{sequenceOf(project) ? String(sequenceOf(project)).padStart(2, '0') : <FileText size={15} />}</span><h3>{project.name}</h3><StatusBadge project={project} now={now} /></div>
       <p>{project.description}</p>
-      <div className="proposal-metadata"><span className="funding"><Amount value={Number(project.znnFundsNeeded) / 1e8} decimals={0} symbol="ZNN" /><span className="separator">/</span><Amount value={Number(project.qsrFundsNeeded) / 1e8} decimals={0} symbol="QSR" /></span><span className="deadline" title={new Date((target.isPhase ? target.creationTimestamp : deadline) * 1000).toISOString()}><Clock3 size={12} />{target.isPhase ? `Phase submitted ${shortDate(target.creationTimestamp)} UTC` : `Voting ends ${shortDate(deadline)} UTC`}</span>{countdown && <time className="vote-countdown" dateTime={new Date(deadline * 1000).toISOString()}>{countdown}</time>}</div>
+      <div className="proposal-metadata"><span className="funding"><Amount value={Number(project.znnFundsNeeded) / 1e8} decimals={0} symbol="ZNN" /><span className="separator">/</span><Amount value={Number(project.qsrFundsNeeded) / 1e8} decimals={0} symbol="QSR" /></span><span className="deadline" title={new Date((target.isPhase ? target.creationTimestamp : deadline) * 1000).toISOString()}><Clock3 size={12} />{target.isPhase ? `Phase submitted ${shortDate(target.creationTimestamp)} UTC` : `Voting ends ${shortDate(deadline)} UTC`}</span><LiveVoteCountdown project={project} /></div>
     </div>
     <VoteSummary project={project} tracking={tracking} now={now} />
     <div className="proposal-actions"><a className="explorer-link" href={`https://zenonhub.io/accelerator-z/project/${project.id}`} target="_blank" rel="noreferrer">Zenon Hub <ArrowUpRight size={14} /></a>{discussion && <a className="discussion-link" href={discussion} target="_blank" rel="noreferrer">Discussion <ArrowUpRight size={12} /></a>}</div>
@@ -168,6 +181,8 @@ export default function App() {
   const packages = tracking ? configuredPackages(site, tracking) : [];
   const projects = packages.flatMap(group => group.projects);
   const votingProjects = tracking ? projects.filter(project => ['Voting', 'Phase voting'].includes(votingState(project, now / 1000))) : [];
+  const nextDeadline = nextVoteDeadline(projects, now / 1000);
+  const daysLeft = nextDeadline === null ? null : Math.floor((nextDeadline - now / 1000) / 86400);
   const quorum = tracking ? Math.floor(tracking.activePillars * 33 / 100) + 1 : 0;
   const nodeState = loadError ? 'offline' : tracking ? 'live' : '';
   const nodeLabel = loadError ? 'Node unavailable' : isLoading ? 'Checking public node' : 'Public node';
@@ -189,7 +204,7 @@ export default function App() {
       <section className="page-heading"><div><span className="ledger section-eyebrow"><NetworkGlyph name="az" size={15} />Network governance</span><h1>Accelerator-Z<span className="title-period">.</span></h1><p>Follow the proposals. Read the signals. Review the published position.</p></div><div className="live-controls"><span className="snapshot-chip"><Clock3 size={14} />{tracking ? `Node read: ${dateTime(tracking.fetchedAt)}` : 'Waiting for node votes'}</span><Button variant="outline" size="sm" type="button" disabled={isLoading} onClick={() => refreshRef.current?.()}><RefreshCw size={14} className={isLoading ? 'refreshing' : ''} />Refresh votes</Button></div></section>
       {isLoading && <LoadingQuote />}
       {loadError && <div className="error-banner" role="alert"><span>{loadError}{tracking ? ` Showing the last public-node read from ${dateTime(tracking.fetchedAt)}.` : ''}</span><button type="button" onClick={() => refreshRef.current?.()}>Try again</button></div>}
-      {tracking && <section className="overview" aria-label="Tracking summary"><div className="overview-stat"><span className="ledger">Tracked proposals</span><div><span className="stat-value">{projects.length.toString().padStart(2, '0')}</span><span className="stat-detail"><span className="mini-dot" />{votingProjects.length} in voting</span></div></div><div className="overview-stat"><span className="ledger">Work packages</span><div><span className="stat-value">{packages.length.toString().padStart(2, '0')}</span><span className="stat-detail">{site.trackedOwners.length} tracked author{site.trackedOwners.length === 1 ? '' : 's'}</span></div></div><div className="overview-stat"><span className="ledger">Total requested</span><div className="request-stat"><Amount value={tokenAmount(projects, 'znnFundsNeeded')} decimals={0} symbol="ZNN" /><Amount value={tokenAmount(projects, 'qsrFundsNeeded')} decimals={0} symbol="QSR" /></div></div><div className="overview-stat quorum-stat"><span className="ledger">Participation quorum</span><div><span className="stat-value">{quorum}</span><span className="stat-detail">of {tracking.activePillars} active Pillars<br />&gt;33% + yes majority</span></div></div></section>}
+      {tracking && <section className="overview" aria-label="Tracking summary"><div className="overview-stat"><span className="ledger">Tracked proposals</span><div><span className="stat-value">{projects.length.toString().padStart(2, '0')}</span><span className="stat-detail"><span className="mini-dot" />{votingProjects.length} in voting</span></div></div><div className="overview-stat days-left-stat"><span className="ledger">Days left</span><div><span className="stat-value">{daysLeft === null ? '—' : daysLeft === 0 ? '<1' : daysLeft}</span><span className="stat-detail">{nextDeadline === null ? 'No fixed voting deadline' : `Next AZ closes ${shortDate(nextDeadline)} UTC`}</span></div></div><div className="overview-stat"><span className="ledger">Work packages</span><div><span className="stat-value">{packages.length.toString().padStart(2, '0')}</span><span className="stat-detail">{site.trackedOwners.length} tracked author{site.trackedOwners.length === 1 ? '' : 's'}</span></div></div><div className="overview-stat"><span className="ledger">Total requested</span><div className="request-stat"><Amount value={tokenAmount(projects, 'znnFundsNeeded')} decimals={0} symbol="ZNN" /><Amount value={tokenAmount(projects, 'qsrFundsNeeded')} decimals={0} symbol="QSR" /></div></div><div className="overview-stat quorum-stat"><span className="ledger">Participation quorum</span><div><span className="stat-value">{quorum}</span><span className="stat-detail">of {tracking.activePillars} active Pillars<br />&gt;33% + yes majority</span></div></div></section>}
       <section id="tracker" className="tracker-section"><div className="static-tracker-heading"><div><span className="ledger">Network record</span><h2>Tracked proposals</h2></div><span>{tracking ? `Public node read ${dateTime(tracking.fetchedAt)} · refreshes every 5 minutes` : `Vote source: ${NODE_URL}`}</span></div><div className="author-strip"><span className="ledger">Authors</span>{site.trackedOwners.map(owner => <span className="tracked-author" key={owner.address}><span>{owner.name}</span><Address address={owner.address} start={8} end={6} href={`https://zenonhub.io/explorer/account/${owner.address}`} /></span>)}</div>
         {tracking ? <><div className="packages-list">{packages.map(group => <WorkPackage group={group} tracking={tracking} now={now} key={group.id} />)}</div><details className="voting-guide"><summary><ShieldCheck size={15} />How to read these votes <ChevronRight size={14} /></summary><div><p>Approval needs participation from more than 33% of active Pillars, including abstentions, and strictly more yes votes than no votes. With {tracking.activePillars} active Pillars, that means at least {quorum} total votes. “More yes” and “more no to block” assume only new votes of that type, with existing votes unchanged.</p><p>No votes do not immediately reject a proposal. A tie or no majority blocks approval. A project that does not pass during its 14-day voting period closes when the contract updates. Phase ballots have no fixed deadline in the contract. Pillars can change their votes. Counts and named ballots are read from the public node; use Refresh votes for a new read.</p><a href="https://github.com/zenon-network/go-zenon/blob/master/vm/embedded/implementation/accelerator.go" target="_blank" rel="noreferrer">Read the voting contract <ArrowUpRight size={12} /></a></div></details></> : <div className="empty-state"><h3>Waiting for public-node votes</h3><p>Proposal status and Pillar ballots appear after the node responds.</p></div>}
       </section>

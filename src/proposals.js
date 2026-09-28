@@ -38,14 +38,20 @@ export function votingState(project, now = Date.now() / 1000) {
 
 export function voteCountdown(project, now = Date.now() / 1000) {
   if (project.status !== 0) return null;
-  const secondsLeft = project.creationTimestamp + VOTING_PERIOD - now;
+  const secondsLeft = Math.ceil(project.creationTimestamp + VOTING_PERIOD - now);
   if (secondsLeft <= 0) return null;
-  if (secondsLeft < 3600) return `${Math.ceil(secondsLeft / 60)}m left to vote`;
-  const totalHours = Math.ceil(secondsLeft / 3600);
-  if (totalHours < 24) return `${totalHours}h left to vote`;
-  const days = Math.floor(totalHours / 24);
-  const hours = totalHours % 24;
-  return `${days} day${days === 1 ? '' : 's'}${hours ? ` ${hours}h` : ''} left to vote`;
+  const days = Math.floor(secondsLeft / 86400);
+  const hours = Math.floor(secondsLeft % 86400 / 3600);
+  const minutes = Math.floor(secondsLeft % 3600 / 60);
+  const seconds = secondsLeft % 60;
+  return `${days}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m ${String(seconds).padStart(2, '0')}s left to vote`;
+}
+
+export function nextVoteDeadline(projects, now = Date.now() / 1000) {
+  const deadlines = projects.filter(project => project.status === 0)
+    .map(project => project.creationTimestamp + VOTING_PERIOD)
+    .filter(deadline => deadline > now);
+  return deadlines.length ? Math.min(...deadlines) : null;
 }
 
 export function safeExternalUrl(url) {
