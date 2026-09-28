@@ -21,32 +21,6 @@ export function sequenceOf(project) {
   return match ? Number(match[1]) : 0;
 }
 
-export function sortProjects(projects) {
-  return [...projects].sort((a, b) => sequenceOf(a) - sequenceOf(b)
-    || a.creationTimestamp - b.creationTimestamp
-    || a.name.localeCompare(b.name, 'en', { numeric: true }) || a.id.localeCompare(b.id));
-}
-
-export function packageIdentity(project) {
-  if (project.name.startsWith('Ferry:')) return { key: 'ferry', name: 'Ferry', description: 'Bitcoin & multi-chain swaps', icon: 'bridge' };
-  if (/^ZVM\b/.test(project.name)) return { key: 'zvm', name: 'Zenoglyphs VM', description: 'An EVM metaprotocol for NoM', icon: 'layers' };
-  return { key: project.id, name: project.name, description: project.description, icon: project.name.includes('Pillar') ? 'pillar' : project.name.includes('Syrius') ? 'wallet' : 'utilities' };
-}
-
-export function buildPackages(projects, owners, customGroups = []) {
-  const groups = new Map();
-  for (const project of projects) {
-    const custom = customGroups.find(group => group.projectIds.includes(project.id));
-    const identity = custom ? { key: custom.id, name: custom.name, description: 'Custom work package', icon: 'package' } : packageIdentity(project);
-    const key = custom ? custom.id : `${project.owner}:${identity.key}`;
-    if (!groups.has(key)) groups.set(key, { ...identity, key, owner: project.owner, ownerName: owners.find(owner => owner.address === project.owner)?.name || 'Tracked author', projects: [] });
-    groups.get(key).projects.push(project);
-  }
-  return [...groups.values()].map(group => ({ ...group, projects: sortProjects(group.projects) }))
-    .sort((a, b) => Math.max(...b.projects.map(p => p.creationTimestamp)) - Math.max(...a.projects.map(p => p.creationTimestamp))
-      || b.projects.length - a.projects.length || a.name.localeCompare(b.name));
-}
-
 export function votingTarget(project) {
   if (project.status === 1) {
     const current = [...(project.phases || [])].sort((a, b) => b.phase.creationTimestamp - a.phase.creationTimestamp).find(p => p.phase.status === 0);

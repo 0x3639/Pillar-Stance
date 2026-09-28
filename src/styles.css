@@ -204,6 +204,62 @@ select { color-scheme: light; height: 40px; }
 .footer-brand { display: flex; align-items: center; gap: 7px; color: var(--foreground); font-size: 12px; }
 .footer-brand svg { color: var(--primary); }
 .site-footer a { display: inline-flex; align-items: center; gap: 4px; }
+.snapshot-chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 9px 11px; color: var(--muted-foreground); font-family: var(--font-mono); font-size: 11px; white-space: nowrap; }
+.snapshot-chip svg { color: var(--primary); }
+.static-tracker-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.static-tracker-heading h2 { font-size: 23px; font-weight: 500; letter-spacing: -.7px; margin-top: 5px; }
+.static-tracker-heading > span { font-size: 11px; color: var(--muted-foreground); }
+.pillar-votes { border-top: 1px solid var(--border); }
+.pillar-votes summary { list-style: none; display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 15px 24px; cursor: pointer; color: var(--muted-foreground); }
+.pillar-votes summary::-webkit-details-marker { display: none; }
+.pillar-votes summary:hover { background: color-mix(in oklab, var(--primary) 4%, var(--card)); }
+.pillar-vote-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+.pillar-vote-heading svg { color: var(--primary); }
+.pillar-vote-heading strong { font-weight: 500; color: var(--foreground); }
+.pillar-vote-heading > span { margin-left: 8px; }
+.details-chevron { transition: transform .15s; }
+.pillar-votes[open] .details-chevron { transform: rotate(90deg); }
+.pillar-vote-body { padding: 5px 24px 20px; }
+.pillar-vote-body > p { font-size: 11px; color: var(--muted-foreground); margin-bottom: 14px; }
+.ballot-table-scroll { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius-md); }
+.ballot-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+.ballot-table th, .ballot-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.ballot-table tr:last-child th, .ballot-table tr:last-child td { border-bottom: 0; }
+.ballot-table thead { background: var(--muted); color: var(--muted-foreground); font-size: 11px; }
+.ballot-table thead th { font-weight: 500; }
+.ballot-table tbody th { font-weight: 500; }
+.ballot-table tbody tr:hover { background: color-mix(in oklab, var(--primary) 4%, var(--card)); }
+.ballot { display: inline-block; border-radius: var(--radius-sm); padding: 2px 6px; font-family: var(--font-mono); font-size: 10px; }
+.ballot.yes { background: color-mix(in oklab, var(--primary) 12%, var(--card)); color: var(--primary); }
+.ballot.no { background: color-mix(in oklab, var(--destructive) 10%, var(--card)); color: var(--destructive); }
+.ballot.abstain, .ballot.uncast { background: var(--muted); color: var(--muted-foreground); }
+.assessment-section, .brief-section { padding-top: 52px; margin-top: 36px; border-top: 1px solid var(--border); }
+.assessment-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.assessment-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 22px 24px; min-width: 0; }
+.assessment-card-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.assessment-title { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.assessment-title .ledger { font-size: 9px; }
+.assessment-title h3 { font-size: 16px; font-weight: 500; margin-top: 2px; }
+.editorial-stance { display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0; border: 1px solid var(--border); border-radius: var(--radius-full); padding: 5px 9px; font-size: 11px; }
+.editorial-stance.support { color: var(--primary); border-color: color-mix(in oklab, var(--primary) 30%, var(--border)); background: color-mix(in oklab, var(--primary) 7%, var(--card)); }
+.editorial-stance.reject { color: var(--destructive); border-color: color-mix(in oklab, var(--destructive) 30%, var(--border)); background: color-mix(in oklab, var(--destructive) 7%, var(--card)); }
+.editorial-stance.pending { color: var(--muted-foreground); }
+.assessment-copy { border-top: 1px solid var(--border); padding-top: 15px; margin-top: 17px; font-size: 13px; line-height: 1.75; }
+.assessment-copy p + p { margin-top: 13px; }
+.assessment-copy .pending-copy { color: var(--muted-foreground); font-style: italic; }
+.brief-list { display: grid; gap: 10px; }
+.brief-card { display: flex; align-items: center; gap: 14px; padding: 15px 18px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.brief-card > div:nth-child(2) { min-width: 0; flex: 1; }
+.brief-card h3 { font-size: 14px; font-weight: 500; }
+.brief-card p { font-size: 11px; color: var(--muted-foreground); margin-top: 2px; }
+.brief-actions { display: flex; align-items: center; gap: 8px; }
+.brief-actions a, .brief-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 10px; color: var(--foreground); font-size: 11px; white-space: nowrap; cursor: pointer; }
+.brief-actions a:hover, .brief-actions button:hover { border-color: var(--primary); color: var(--primary); }
+.work-links { margin-top: 22px; padding: 18px 20px; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--card); }
+.work-links > div { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 12px; }
+.work-links a { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 7px 9px; font-size: 12px; }
+.work-links a:hover { border-color: var(--primary); }
+.brief-footnote { color: var(--muted-foreground); font-size: 11px; line-height: 1.7; margin-top: 14px; }
 .empty-state { border: 1px dashed var(--border); border-radius: var(--radius-xl); padding: 42px 20px; text-align: center; color: var(--muted-foreground); }
 .empty-state > svg { color: var(--primary); margin-bottom: 12px; }
 .empty-state h3 { color: var(--foreground); font-size: 18px; font-weight: 500; }
@@ -269,6 +325,7 @@ select { color-scheme: light; height: 40px; }
   .stance-option small { font-size: 9px; }
 }
 @media (max-width: 800px) {
+  .assessment-list { grid-template-columns: 1fr; }
   .header-inner { gap: 28px; padding: 0 20px; }
   .header-tools { gap: 10px; }
   .node-status { font-size: 0; gap: 0; }
@@ -309,6 +366,21 @@ select { color-scheme: light; height: 40px; }
   .opinion-bottom { font-size: 11px; }
 }
 @media (max-width: 520px) {
+  .snapshot-chip { font-size: 9px; }
+  .static-tracker-heading { align-items: flex-start; flex-direction: column; gap: 3px; }
+  .pillar-votes summary { padding: 14px; }
+  .pillar-vote-heading { gap: 6px; font-size: 11px; }
+  .pillar-vote-heading > span { margin-left: 24px; width: 100%; font-size: 10px; }
+  .pillar-vote-body { padding: 4px 14px 16px; }
+  .assessment-card { padding: 17px 15px; }
+  .assessment-card-head { align-items: flex-start; }
+  .assessment-title { gap: 8px; }
+  .assessment-title h3 { font-size: 14px; }
+  .editorial-stance { font-size: 9px; padding: 4px 6px; }
+  .brief-card { flex-wrap: wrap; padding: 13px; gap: 10px; }
+  .brief-actions { width: 100%; margin-left: 42px; }
+  .brief-actions > * { flex: 1; }
+  .work-links { padding: 15px; }
   .verify-loader { align-items: flex-start; flex-direction: column; gap: 5px; padding: 12px 14px; }
   .site-header { height: 66px; }
   .header-inner { padding: 0 16px; gap: 0; }

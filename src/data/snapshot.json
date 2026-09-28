@@ -1,4 +1,7 @@
 {
+  "fetchedAt": "2026-09-28T10:02:09.250Z",
+  "nodeUrl": "https://my.hc1node.com:35997",
+  "activePillars": 97,
   "projects": [
     {
       "id": "21636c08647b6ce35258271cb5f6b8bca5e50916d8b967ce0d6bdcdb25e767c2",
@@ -14,8 +17,8 @@
       "phaseIds": [],
       "votes": {
         "id": "21636c08647b6ce35258271cb5f6b8bca5e50916d8b967ce0d6bdcdb25e767c2",
-        "total": 1,
-        "yes": 1,
+        "total": 4,
+        "yes": 4,
         "no": 0
       },
       "phases": []
@@ -34,8 +37,8 @@
       "phaseIds": [],
       "votes": {
         "id": "32f44c509cbf75af823174cf5d9ae1b6ab902b5e12abe17a3aec5e2f3d3de5f2",
-        "total": 1,
-        "yes": 1,
+        "total": 4,
+        "yes": 4,
         "no": 0
       },
       "phases": []
@@ -54,8 +57,8 @@
       "phaseIds": [],
       "votes": {
         "id": "361484b40acedc86299d6d96340bdfb9af33b63657e150f4749cff820a2a6312",
-        "total": 2,
-        "yes": 2,
+        "total": 5,
+        "yes": 5,
         "no": 0
       },
       "phases": []
@@ -74,8 +77,8 @@
       "phaseIds": [],
       "votes": {
         "id": "3a7cf7dcc77eb60e55e5912b894d73f6298e53f4f969991ac664d9222d4b1c11",
-        "total": 1,
-        "yes": 1,
+        "total": 4,
+        "yes": 4,
         "no": 0
       },
       "phases": []
@@ -94,8 +97,8 @@
       "phaseIds": [],
       "votes": {
         "id": "520dc9ef165bd2a0726c96b94fddfbc5e45942aa0a8b0f8934f742a69d958896",
-        "total": 2,
-        "yes": 2,
+        "total": 5,
+        "yes": 5,
         "no": 0
       },
       "phases": []
@@ -114,8 +117,8 @@
       "phaseIds": [],
       "votes": {
         "id": "8d416a0c27e1138aba18b8cfa6793368644534c0e076b6a7862c2adf5b73d306",
-        "total": 1,
-        "yes": 1,
+        "total": 4,
+        "yes": 4,
         "no": 0
       },
       "phases": []
@@ -134,8 +137,8 @@
       "phaseIds": [],
       "votes": {
         "id": "c4fee96c72cf8812d6cd7fee5ec4a5bc8fba0be5429c4c3b66847fb760055ed2",
-        "total": 2,
-        "yes": 2,
+        "total": 5,
+        "yes": 5,
         "no": 0
       },
       "phases": []
@@ -154,8 +157,8 @@
       "phaseIds": [],
       "votes": {
         "id": "eb79d0eda7f572b4b1ce706300b52593ff597639bf4b04f7d1c14f053cfa6092",
-        "total": 2,
-        "yes": 2,
+        "total": 5,
+        "yes": 5,
         "no": 0
       },
       "phases": []
@@ -174,14 +177,195 @@
       "phaseIds": [],
       "votes": {
         "id": "fe34d75feab3fbd3c8c2abc971ae3cf53b4315de83d396e3616b2090a60df1f1",
-        "total": 2,
-        "yes": 2,
+        "total": 5,
+        "yes": 5,
         "no": 0
       },
       "phases": []
     }
   ],
-  "activePillars": 97,
-  "fetchedAt": "2026-09-27T16:30:27.390Z",
-  "nodeUrl": "https://my.hc1node.com:35997"
+  "pillarVotes": {
+    "21636c08647b6ce35258271cb5f6b8bca5e50916d8b967ce0d6bdcdb25e767c2": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      }
+    ],
+    "32f44c509cbf75af823174cf5d9ae1b6ab902b5e12abe17a3aec5e2f3d3de5f2": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      }
+    ],
+    "361484b40acedc86299d6d96340bdfb9af33b63657e150f4749cff820a2a6312": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      },
+      {
+        "name": "THEREWERESIGNZ",
+        "vote": 0
+      }
+    ],
+    "3a7cf7dcc77eb60e55e5912b894d73f6298e53f4f969991ac664d9222d4b1c11": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      }
+    ],
+    "520dc9ef165bd2a0726c96b94fddfbc5e45942aa0a8b0f8934f742a69d958896": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      },
+      {
+        "name": "THEREWERESIGNZ",
+        "vote": 0
+      }
+    ],
+    "8d416a0c27e1138aba18b8cfa6793368644534c0e076b6a7862c2adf5b73d306": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      }
+    ],
+    "c4fee96c72cf8812d6cd7fee5ec4a5bc8fba0be5429c4c3b66847fb760055ed2": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      },
+      {
+        "name": "THEREWERESIGNZ",
+        "vote": 0
+      }
+    ],
+    "eb79d0eda7f572b4b1ce706300b52593ff597639bf4b04f7d1c14f053cfa6092": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      },
+      {
+        "name": "THEREWERESIGNZ",
+        "vote": 0
+      }
+    ],
+    "fe34d75feab3fbd3c8c2abc971ae3cf53b4315de83d396e3616b2090a60df1f1": [
+      {
+        "name": "0x3639.com",
+        "vote": 0
+      },
+      {
+        "name": "DeeZNNutz.com",
+        "vote": 0
+      },
+      {
+        "name": "edgepillar.com",
+        "vote": 0
+      },
+      {
+        "name": "NoMLabz.org",
+        "vote": 0
+      },
+      {
+        "name": "THEREWERESIGNZ",
+        "vote": 0
+      }
+    ]
+  }
 }

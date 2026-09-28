@@ -1,13 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { buildPackages, voteMetrics, votingState, votingTarget, VOTING_PERIOD, safeExternalUrl } from '../src/proposals.js';
-import { DEFAULT_OWNERS } from '../src/config.js';
-import { remainingCacheTime } from '../src/cache.js';
+import { voteMetrics, votingState, votingTarget, VOTING_PERIOD, safeExternalUrl } from '../src/proposals.js';
+import { configuredPackages, packageVotes } from '../src/published.js';
 const snapshot = JSON.parse(fs.readFileSync(new URL('../src/data/snapshot.json', import.meta.url)));
+const site = JSON.parse(fs.readFileSync(new URL('../src/data/site.json', import.meta.url)));
 
-test('all nine submissions are grouped and numbered Ferry 1–3 then ZVM 1–3', () => {
-  const packages = buildPackages(snapshot.projects, DEFAULT_OWNERS);
+test('GitHub JSON defines nine submissions grouped and ordered Ferry 1–3 then ZVM 1–3', () => {
+  const packages = configuredPackages(site, snapshot);
   assert.equal(packages.length, 5);
   assert.equal(packages.flatMap(p => p.projects).length, 9);
   assert.deepEqual(packages[0].projects.map(p => p.name), ['Ferry: BTC Swaps (1/3)', 'Ferry: BTC Swaps (2/3)', 'Ferry: Multi-chain Swaps (3/3)']);
@@ -46,20 +46,39 @@ test('expired projects await on-chain closure, while current phases use phase vo
   assert.equal(votingState(active), 'Phase voting');
 });
 
-test('custom packages do not duplicate proposals', () => {
-  const ids = snapshot.projects.slice(0, 2).map(p => p.id);
-  const packages = buildPackages(snapshot.projects, DEFAULT_OWNERS, [{ id: 'custom', name: 'Combined', projectIds: ids }]);
-  assert.equal(packages.find(p => p.key === 'custom').projects.length, 2);
-  assert.equal(new Set(packages.flatMap(p => p.projects.map(p => p.id))).size, 9);
+test('published packages reject duplicate or missing AZ IDs', () => {
+  const duplicate = structuredClone(site);
+  duplicate.workPackages[1].projectIds.push(duplicate.workPackages[0].projectIds[0]);
+  assert.throws(() => configuredPackages(duplicate, snapshot), /multiple work packages/);
+  const missing = structuredClone(site);
+  missing.workPackages[0].projectIds[0] = 'missing';
+  assert.throws(() => configuredPackages(missing, snapshot), /missing from the node snapshot/);
 });
 
-test('cache is reusable until exactly five minutes and rejects future or invalid timestamps', () => {
-  const now = Date.parse('2026-09-27T12:00:00Z');
-  assert.equal(remainingCacheTime({ fetchedAt: new Date(now).toISOString() }, now), 300_000);
-  assert.equal(remainingCacheTime({ fetchedAt: new Date(now - 299_999).toISOString() }, now), 1);
-  assert.equal(remainingCacheTime({ fetchedAt: new Date(now - 300_000).toISOString() }, now), 0);
-  assert.equal(remainingCacheTime({ fetchedAt: new Date(now + 1).toISOString() }, now), 0);
-  assert.equal(remainingCacheTime({ fetchedAt: 'bad' }, now), 0);
+test('named Pillar ballots reconcile with each AZ tally in the snapshot', () => {
+  for (const group of configuredPackages(site, snapshot)) {
+    const summary = packageVotes(group, snapshot);
+    assert.ok(summary.pillars.length <= snapshot.activePillars);
+    assert.equal(summary.totals.total, summary.totals.yes + summary.totals.no + summary.totals.abstain);
+    assert.ok(summary.unlisted >= 0);
+    for (const project of group.projects) {
+      const target = votingTarget(project);
+      const ballots = snapshot.pillarVotes[target.id];
+      assert.ok(Array.isArray(ballots));
+      assert.ok(ballots.length <= target.votes.total);
+      assert.ok(ballots.filter(ballot => ballot.vote === 0).length <= target.votes.yes);
+      assert.ok(ballots.filter(ballot => ballot.vote === 1).length <= target.votes.no);
+    }
+  }
+});
+
+test('all four supplied work repositories appear in the published LLM context', () => {
+  assert.deepEqual(site.workLinks.map(link => link.url), [
+    'https://github.com/sol-znn/ferry-web',
+    'https://github.com/sol-znn/zenon-faucet',
+    'https://github.com/sol-znn/syrius-extension',
+    'https://github.com/sol-znn/landing_page',
+  ]);
 });
 
 test('proposal links accept only web URLs', () => {
