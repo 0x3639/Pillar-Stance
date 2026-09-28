@@ -1,5 +1,17 @@
 {
   "title": "Pillar Stance",
+  "assessment": {
+    "status": "Draft",
+    "title": "Why I support Sol’s September AZ submissions",
+    "paragraphs": [
+      "I support these nine AZ submissions because, together, they make a connected path from a browser wallet to useful applications on Zenon. I am one of the two auditors on Ferry and am allocated a share of its auditor budget. I have also been building on the ZVM devnet. My support for the proposals is separate from the Ferry audit; any security conclusion must stand on its own published findings.",
+      "I see one stack rather than nine unrelated requests. The Syrius extension provides the browser wallet and signing interface. The faucet and utility tools help people get started. Ferry brings cross-chain swaps to a browser. ZVM provides a route for contracts and applications derived from NoM data. The landing page is a front door to the devnet work. Pillar ownership transfer addresses a separate but important network need. The case for funding is stronger if these pieces work together in practice, so I want Pillars to test those connections instead of judging each repository in isolation.",
+      "I want Pillars to inspect the linked code and documentation for the extension, faucet, Ferry, and utility tools. In particular, Ferry’s Bitcoin–Zenon flow and its broader multi-chain milestones should be checked against running software, tests, and the acceptance criteria in the forum thread. Support for the direction is not a security sign-off or a reason to release an audit milestone without its required evidence.",
+      "ZVM is the most ambitious part of the package. Its proposed design records transactions on NoM and deterministically derives EVM execution from them, rather than introducing a separate validator set. I have used the devnet, but independent verification matters more than a demo. Before the later derivation milestone is paid, I want the source public and independent nodes to reproduce the same state through a forced reorg. The proposal’s trust assumptions around ZNN exits, including its stated need for a future network change for trustless 1:1 withdrawals, must be unmistakable to users.",
+      "Pillar ownership transfer deserves review even though activation depends on a spork path outside this proposal. I support specifying and testing it now, with payment tied to the stated ZIP acceptance and implementation evidence. The same principle applies across the package: fund work against verifiable deliverables, and keep unfinished phases open to scrutiny.",
+      "My support is a vote to pursue this connected work, not a claim that every milestone is complete. I encourage other Pillars to read the current forum discussions, inspect the code, try the available software, and ask Sol directly about any gap between the proposal and what they can verify."
+    ]
+  },
   "trackedOwners": [
     {
       "address": "z1qrw2vecdddmft89xh6yqencmjergsshhfmks0l",
@@ -10,7 +22,18 @@
     { "name": "Ferry web", "url": "https://github.com/sol-znn/ferry-web" },
     { "name": "Zenon Faucet", "url": "https://github.com/sol-znn/zenon-faucet" },
     { "name": "Syrius Extension", "url": "https://github.com/sol-znn/syrius-extension" },
-    { "name": "Landing page", "url": "https://github.com/sol-znn/landing_page" }
+    { "name": "Landing page", "url": "https://github.com/sol-znn/landing_page" },
+    { "name": "zts-airdrop", "url": "https://github.com/sol-znn/zts-airdrop" },
+    { "name": "vanity-zts", "url": "https://github.com/sol-znn/vanity-zts" },
+    { "name": "Address generator (Go)", "url": "https://github.com/sol-znn/znn-address-generator-go" },
+    { "name": "Address generator (CUDA)", "url": "https://github.com/sol-znn/znn-address-generator-cuda" }
+  ],
+  "devnetLinks": [
+    { "name": "ZVM status", "url": "https://devnet.zenon.foo/status/" },
+    { "name": "ZVM explorer", "url": "https://devnet.zenon.foo/explorer/" },
+    { "name": "Glyphswap DEX", "url": "https://devnet.zenon.foo/glyphswap/" },
+    { "name": "Glyphswap faucet", "url": "https://devnet.zenon.foo/glyphswap/faucet" },
+    { "name": "Karum NFT market", "url": "https://devnet.zenon.foo/karum/" }
   ],
   "workPackages": [
     {
@@ -18,12 +41,14 @@
       "name": "Ferry",
       "description": "Bitcoin & multi-chain swaps",
       "icon": "bridge",
+      "forumUrl": "https://forum.zenon.org/t/ferry-multi-chain-htlc-web-service/2366",
+      "projectNames": ["Ferry: BTC Swaps (1/3)", "Ferry: BTC Swaps (2/3)", "Ferry: Multi-chain Swaps (3/3)"],
       "projectIds": [
         "361484b40acedc86299d6d96340bdfb9af33b63657e150f4749cff820a2a6312",
         "fe34d75feab3fbd3c8c2abc971ae3cf53b4315de83d396e3616b2090a60df1f1",
         "32f44c509cbf75af823174cf5d9ae1b6ab902b5e12abe17a3aec5e2f3d3de5f2"
       ],
-      "stance": null,
+      "stance": "support",
       "paragraphs": []
     },
     {
@@ -31,12 +56,14 @@
       "name": "Zenoglyphs VM",
       "description": "An EVM metaprotocol for NoM",
       "icon": "layers",
+      "forumUrl": "https://forum.zenon.org/t/zenoglyphs-vm-zvm/2371",
+      "projectNames": ["ZVM (1/3)", "ZVM (2/3)", "ZVM (3/3)"],
       "projectIds": [
         "21636c08647b6ce35258271cb5f6b8bca5e50916d8b967ce0d6bdcdb25e767c2",
         "8d416a0c27e1138aba18b8cfa6793368644534c0e076b6a7862c2adf5b73d306",
         "3a7cf7dcc77eb60e55e5912b894d73f6298e53f4f969991ac664d9222d4b1c11"
       ],
-      "stance": null,
+      "stance": "support",
       "paragraphs": []
     },
     {
@@ -44,10 +71,12 @@
       "name": "NoM Utilities",
       "description": "NoM Utilities: Zenon Faucet, Address Generators, zts-airdrop, vanity-zts",
       "icon": "utilities",
+      "forumUrl": "https://forum.zenon.org/t/nom-utilities/2368",
+      "projectNames": ["NoM Utilities"],
       "projectIds": [
         "c4fee96c72cf8812d6cd7fee5ec4a5bc8fba0be5429c4c3b66847fb760055ed2"
       ],
-      "stance": null,
+      "stance": "support",
       "paragraphs": []
     },
     {
@@ -55,10 +84,12 @@
       "name": "Pillar Ownership via HTLC",
       "description": "Pillar Ownership Transfer via HTLC",
       "icon": "pillar",
+      "forumUrl": "https://forum.zenon.org/t/pillar-ownership-transfer-via-htlc/2370",
+      "projectNames": ["Pillar Ownership via HTLC"],
       "projectIds": [
         "eb79d0eda7f572b4b1ce706300b52593ff597639bf4b04f7d1c14f053cfa6092"
       ],
-      "stance": null,
+      "stance": "support",
       "paragraphs": []
     },
     {
@@ -66,10 +97,12 @@
       "name": "Syrius Extension Wallet v0.3.3",
       "description": "Syrius Extension Wallet: refactoring, reskinning, and new features",
       "icon": "wallet",
+      "forumUrl": "https://forum.zenon.org/t/syrius-extension-wallet-v0-3-3/2367",
+      "projectNames": ["Syrius Extension Wallet v0.3.3"],
       "projectIds": [
         "520dc9ef165bd2a0726c96b94fddfbc5e45942aa0a8b0f8934f742a69d958896"
       ],
-      "stance": null,
+      "stance": "support",
       "paragraphs": []
     }
   ]

@@ -206,6 +206,10 @@ select { color-scheme: light; height: 40px; }
 .site-footer a { display: inline-flex; align-items: center; gap: 4px; }
 .snapshot-chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 9px 11px; color: var(--muted-foreground); font-family: var(--font-mono); font-size: 11px; white-space: nowrap; }
 .snapshot-chip svg { color: var(--primary); }
+.live-controls { display: flex; align-items: center; gap: 10px; }
+.live-controls .nom-btn { white-space: nowrap; display: inline-flex; align-items: center; gap: 7px; }
+.refreshing { animation: refresh-spin 1s linear infinite; }
+@keyframes refresh-spin { to { transform: rotate(360deg); } }
 .static-tracker-heading { display: flex; align-items: end; justify-content: space-between; gap: 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
 .static-tracker-heading h2 { font-size: 23px; font-weight: 500; letter-spacing: -.7px; margin-top: 5px; }
 .static-tracker-heading > span { font-size: 11px; color: var(--muted-foreground); }
@@ -234,6 +238,14 @@ select { color-scheme: light; height: 40px; }
 .ballot.no { background: color-mix(in oklab, var(--destructive) 10%, var(--card)); color: var(--destructive); }
 .ballot.abstain, .ballot.uncast { background: var(--muted); color: var(--muted-foreground); }
 .assessment-section, .brief-section { padding-top: 52px; margin-top: 36px; border-top: 1px solid var(--border); }
+.assessment-prose { max-width: 900px; }
+.assessment-prose h3 { font-size: 21px; font-weight: 600; letter-spacing: -.5px; line-height: 1.4; margin-bottom: 17px; }
+.assessment-prose p { font-size: 14px; line-height: 1.85; color: var(--foreground); }
+.assessment-prose p + p { margin-top: 17px; }
+.assessment-prose p:first-of-type { color: var(--muted-foreground); border-left: 2px solid var(--primary); padding-left: 16px; }
+.brief-section { background: color-mix(in oklab, var(--primary) 4%, var(--card)); border: 1px solid color-mix(in oklab, var(--primary) 30%, var(--border)); border-radius: var(--radius-xl); padding: 28px; box-shadow: var(--shadow-sm); }
+.brief-section .section-heading h2 { font-size: 30px; font-weight: 700; }
+.brief-section .section-heading p { max-width: 840px; line-height: 1.7; }
 .assessment-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .assessment-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-xl); padding: 22px 24px; min-width: 0; }
 .assessment-card-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
@@ -252,6 +264,10 @@ select { color-scheme: light; height: 40px; }
 .brief-card > div:nth-child(2) { min-width: 0; flex: 1; }
 .brief-card h3 { font-size: 14px; font-weight: 500; }
 .brief-card p { font-size: 11px; color: var(--muted-foreground); margin-top: 2px; }
+.brief-feature { padding: 22px; border-color: color-mix(in oklab, var(--primary) 40%, var(--border)); background: var(--card); }
+.brief-feature h3 { font-size: 17px; font-weight: 600; }
+.brief-feature p { font-size: 12px; margin-top: 5px; }
+.brief-feature .package-icon { width: 46px; height: 46px; }
 .brief-actions { display: flex; align-items: center; gap: 8px; }
 .brief-actions a, .brief-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; background: var(--background); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 8px 10px; color: var(--foreground); font-size: 11px; white-space: nowrap; cursor: pointer; }
 .brief-actions a:hover, .brief-actions button:hover { border-color: var(--primary); color: var(--primary); }
@@ -366,6 +382,12 @@ select { color-scheme: light; height: 40px; }
   .opinion-bottom { font-size: 11px; }
 }
 @media (max-width: 520px) {
+  .live-controls { width: 100%; flex-wrap: wrap; }
+  .live-controls .nom-btn { flex: 1; justify-content: center; }
+  .brief-section { padding: 20px 15px; }
+  .brief-section .section-heading h2 { font-size: 26px; }
+  .assessment-prose h3 { font-size: 19px; }
+  .assessment-prose p { font-size: 13px; }
   .snapshot-chip { font-size: 9px; }
   .static-tracker-heading { align-items: flex-start; flex-direction: column; gap: 3px; }
   .pillar-votes summary { padding: 14px; }
