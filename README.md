@@ -27,6 +27,8 @@ Approval requires total participation **strictly greater than 33%** of active Pi
 
 There is no immediate on-chain rejection threshold. “More no to block” is `max(0, quorum - total, yes - no)`: additional no votes to reach quorum with a tie or no majority, assuming existing ballots stay unchanged. An unapproved project closes after its 14-day window when the contract updates. An approved project with a phase in voting shows the current phase's tally.
 
+Open project ballots show a time-left countdown based on their on-chain creation timestamp and 14-day voting window; it updates while the page is open. Phase ballots do not show a countdown because the contract does not set a fixed phase-voting deadline.
+
 Sources: [Accelerator implementation](https://github.com/zenon-network/go-zenon/blob/master/vm/embedded/implementation/accelerator.go), [contract constants](https://github.com/zenon-network/go-zenon/blob/master/vm/constants/embedded.go).
 
 ## Design system

@@ -32,8 +32,20 @@ export function votingTarget(project) {
 export function votingState(project, now = Date.now() / 1000) {
   const target = votingTarget(project);
   if (target.isPhase) return 'Phase voting';
-  if (project.status === 0 && now > project.creationTimestamp + VOTING_PERIOD) return 'Awaiting closure';
+  if (project.status === 0 && now >= project.creationTimestamp + VOTING_PERIOD) return 'Awaiting closure';
   return STATUS_LABELS[project.status] || 'Unknown';
+}
+
+export function voteCountdown(project, now = Date.now() / 1000) {
+  if (project.status !== 0) return null;
+  const secondsLeft = project.creationTimestamp + VOTING_PERIOD - now;
+  if (secondsLeft <= 0) return null;
+  if (secondsLeft < 3600) return `${Math.ceil(secondsLeft / 60)}m left to vote`;
+  const totalHours = Math.ceil(secondsLeft / 3600);
+  if (totalHours < 24) return `${totalHours}h left to vote`;
+  const days = Math.floor(totalHours / 24);
+  const hours = totalHours % 24;
+  return `${days} day${days === 1 ? '' : 's'}${hours ? ` ${hours}h` : ''} left to vote`;
 }
 
 export function safeExternalUrl(url) {
